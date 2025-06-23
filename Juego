@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Facilitador o Inhibidor del Hierro</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f4f8;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+
+    .box {
+      width: 45%;
+      min-height: 300px;
+      background: #fff;
+      border: 2px dashed #ccc;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .box h2 {
+      text-align: center;
+    }
+
+    .item {
+      padding: 10px;
+      margin: 5px;
+      background: #cce5ff;
+      border-radius: 5px;
+      cursor: move;
+      text-align: center;
+    }
+
+    #items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .correct {
+      background-color: #d4edda !important;
+    }
+
+    .incorrect {
+      background-color: #f8d7da !important;
+    }
+
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>¿Facilitador o Inhibidor del Hierro?</h1>
+  <p style="text-align:center;">Arrastrá cada alimento al grupo correcto y hacé clic en "Verificar".</p>
+
+  <div id="items">
+    <div class="item" draggable="true" data-group="facilitador">Kiwi 🍈</div>
+    <div class="item" draggable="true" data-group="inhibidor">Té 🍵</div>
+    <div class="item" draggable="true" data-group="inhibidor">Espinaca cruda 🌿</div>
+    <div class="item" draggable="true" data-group="facilitador">Limón 🍋</div>
+    <div class="item" draggable="true" data-group="inhibidor">Yogur 🥛</div>
+    <div class="item" draggable="true" data-group="facilitador">Pimiento rojo 🌶️</div>
+    <div class="item" draggable="true" data-group="inhibidor">Cacao amargo 🍫</div>
+    <div class="item" draggable="true" data-group="facilitador">Frutilla 🍓</div>
+    <div class="item" draggable="true" data-group="inhibidor">Avena integral sin remojar 🥣</div>
+    <div class="item" draggable="true" data-group="facilitador">Zanahoria 🥕</div>
+    <div class="item" draggable="true" data-group="facilitador">Fermentados 🧉</div>
+    <div class="item" draggable="true" data-group="inhibidor">Café ☕</div>
+    <div class="item" draggable="true" data-group="inhibidor">Suplemento de zinc 💊</div>
+    <div class="item" draggable="true" data-group="facilitador">Cocción 🔥</div>
+    <div class="item" draggable="true" data-group="facilitador">Remojo 💧</div>
+  </div>
+
+  <div class="container">
+    <div class="box" id="facilitador" ondrop="drop(event)" ondragover="allowDrop(event)">
+      <h2>Facilitador 📈</h2>
+    </div>
+    <div class="box" id="inhibidor" ondrop="drop(event)" ondragover="allowDrop(event)">
+      <h2>Inhibidor ❌</h2>
+    </div>
+  </div>
+
+  <button onclick="verificar()">Verificar</button>
+
+  <script>
+    let draggedItem = null;
+    const items = document.querySelectorAll('.item');
+    items.forEach(item => {
+      item.addEventListener('dragstart', e => {
+        draggedItem = item;
+      });
+    });
+
+    function allowDrop(e) {
+      e.preventDefault();
+    }
+
+    function drop(e) {
+      e.preventDefault();
+      if (draggedItem) {
+        e.target.closest('.box').appendChild(draggedItem);
+        draggedItem = null;
+      }
+    }
+
+    function verificar() {
+      document.querySelectorAll('.item').forEach(item => {
+        item.classList.remove('correct', 'incorrect');
+        const parentId = item.parentElement.id;
+        const grupo = item.getAttribute('data-group');
+        if (parentId === grupo) {
+          item.classList.add('correct');
+        } else {
+          item.classList.add('incorrect');
+        }
+      });
+    }
+  </script>
+</body>
+
+</html>
